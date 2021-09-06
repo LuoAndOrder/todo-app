@@ -17,13 +17,16 @@ Add support for categories to your application. Users should be able to filter t
 ## Level 3
 Add the ability to share the list with another person to hold yourself accountable.
 
-## To Do
-- [ ] Create a new app
-- [ ] Add a list of items
-- [ ] Add a button to add item
-- [ ] Add button to mark done
-- [ ] Add categories
-- [ ] Add sharing
+## User Stories
+As a user, I can
+- [ ] Read a list of tasks
+- [ ] Add a task
+- [ ] Mark any task as completed
+- [ ] Delete any task
+- [ ] Edit any Task
+- [ ] View a specific subset of tasks: All tasks, only the active task, or only completed tasks
+- [ ] View tasks by category
+- [ ] Share my todo list with someone else
 
 ## Inspiration
 - [Todos](https://shashiirk.github.io/todos) (shashiirk.github.io)
