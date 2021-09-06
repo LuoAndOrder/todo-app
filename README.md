@@ -1,6 +1,41 @@
+## Project 01 - Covid Map Dashboard
+This is a part of [#50reactproject](https://50reactprojects.com) -- a series of project briefs and wireframes for learning React.
+
+## Brief
+Create an app that helps you keep track of things you still need to do.
+
+## Level 1
+The goal of a todo list is to be able to add items and check them off once they are complete. This helps keep track of what we still need to do and what we already have done.
+
+Create an app that allows you to add items to a list and mark them as done.
+
+## Level 2
+Soemtimes it's useful to group similar items together. 
+
+Add support for categories to your application. Users should be able to filter todo items by category.
+
+## Level 3
+Add the ability to share the list with another person to hold yourself accountable.
+
+## To Do
+- [ ] Create a new app
+- [ ] Add a list of items
+- [ ] Add a button to add item
+- [ ] Add button to mark done
+- [ ] Add categories
+- [ ] Add sharing
+
+## Inspiration
+- [Todos](https://shashiirk.github.io/todos) (shashiirk.github.io)
+
+## Layout Idea
+![Layout Wireframe](/public/images/layout-wireframe-example.png)
+
+## Running the application
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+### Getting Started
 
 First, run the development server:
 
@@ -12,13 +47,7 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
+### Learn More
 
 To learn more about Next.js, take a look at the following resources:
 
@@ -27,7 +56,7 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+### Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
