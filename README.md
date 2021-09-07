@@ -19,9 +19,9 @@ Add the ability to share the list with another person to hold yourself accountab
 
 ## User Stories
 As a user, I can
-- [ ] Read a list of tasks
-- [ ] Add a task
-- [ ] Mark any task as completed
+- [X] Read a list of tasks
+- [X] Add a task
+- [X] Mark any task as completed
 - [ ] Delete any task
 - [ ] Edit any Task
 - [ ] View a specific subset of tasks: All tasks, only the active task, or only completed tasks
