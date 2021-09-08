@@ -124,20 +124,23 @@ export default function Home({ fallback }) {
           What needs to get done today?
         </Heading>
 
-        <HStack spacing={1}>
-          <Input placeholder="Todo Item"
-            onChange={async (e) => {
-              const { value } = e.currentTarget;
-              setNewItemText(value);
-            }}
-            value={newItemText}/>
-          <Button
-            isLoading={isAddButtonLoading}
-            colorScheme="blue"
-            onClick={() => {
-              handleAddItem(newItemText);
-            }}>Add</Button>
-        </HStack>
+        <form>
+          <HStack spacing={1}>
+            <Input placeholder="Todo Item"
+              onChange={async (e) => {
+                const { value } = e.currentTarget;
+                setNewItemText(value);
+              }}
+              value={newItemText}/>
+            <Button
+              type="submit"
+              isLoading={isAddButtonLoading}
+              colorScheme="blue"
+              onClick={() => {
+                handleAddItem(newItemText);
+              }}>Add</Button>
+          </HStack>
+        </form>
 
         <SWRConfig value={{ fallback }}>
           <TodoList data={data} />
