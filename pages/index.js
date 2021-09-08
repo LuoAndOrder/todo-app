@@ -1,7 +1,9 @@
 import Head from 'next/head'
-import { Heading, Input, Button, Checkbox, Text, VStack, HStack, Flex } from "@chakra-ui/react";
 import useSWR, { SWRConfig, useSWRConfig } from 'swr'
 import { useState } from 'react';
+
+import { Heading, Input, Button, IconButton, Checkbox, Text, VStack, HStack, Spacer, Flex } from "@chakra-ui/react";
+import { DeleteIcon } from '@chakra-ui/icons';
 
 import styles from '../styles/Home.module.css'
 
@@ -19,6 +21,16 @@ async function postData(url = '', data = {}) {
   return response.json();
 };
 
+async function httpDelete(url = '') {
+  const response = await fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  return response.json();
+}
+
 export async function getServerSideProps(context) {
   const todosResult = await fetcher(`${API}/todos`);
 
@@ -31,10 +43,9 @@ export async function getServerSideProps(context) {
   }
 }
 
-
-
 function TodoList() {
   const { data } = useSWR(`${API}/todos`, fetcher);
+  const { mutate } = useSWRConfig();
 
   console.log('Is data ready?', !!data);
 
@@ -42,15 +53,31 @@ function TodoList() {
   return (
     <div>
       <VStack spacing={1} align="left">
-        {data.map(item => 
-          <Checkbox 
-            key={item.id} 
-            defaultChecked={item.completed}
-            onChange={async (e) => {
-              await postData(`${API}/todo/${item.id}`, { completed: e.target.checked });
-            }}>
-              {item.text}
-          </Checkbox>)}
+        {data.map((item) => 
+          <HStack key={item.id} spacing={1}>
+            <Checkbox 
+              key={item.id} 
+              defaultChecked={item.completed}
+              onChange={async (e) => {
+                await postData(`${API}/todos/${item.id}`, { completed: e.target.checked });
+              }}>
+                {item.text}
+            </Checkbox>
+            <Spacer />
+            <IconButton
+              variant="ghost"
+              aria-label="delete"
+              icon={<DeleteIcon
+                color="red.500" 
+                onClick={async () => {
+                  await httpDelete(`${API}/todos/${item.id}`);
+                  mutate(`${API}/todos`, fetcher);
+                }}
+                />
+              }
+            />
+          </HStack>
+        )}
       </VStack>
     </div>
   )
@@ -62,7 +89,7 @@ export default function Home({ fallback }) {
   const { mutate } = useSWRConfig();
 
   async function handleAddItem(text) {
-    const result = await postData(`${API}/todo`, { text: text });
+    const result = await postData(`${API}/todos`, { text: text });
     console.log(result);
     setNewItemText('');
   }
