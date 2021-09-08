@@ -2,7 +2,7 @@ import Head from 'next/head'
 import useSWR, { SWRConfig, useSWRConfig } from 'swr'
 import { useState } from 'react';
 
-import { Heading, Input, Button, IconButton, Checkbox, Text, VStack, HStack, Spacer, Flex } from "@chakra-ui/react";
+import { Heading, Input, Button, IconButton, Checkbox, Text, VStack, HStack, Spacer, Skeleton, Flex } from "@chakra-ui/react";
 import { DeleteIcon } from '@chakra-ui/icons';
 
 import styles from '../styles/Home.module.css'
@@ -43,15 +43,26 @@ export async function getServerSideProps(context) {
   }
 }
 
-function TodoList() {
-  const { data } = useSWR(`${API}/todos`, fetcher);
+function TodoList({ data }) {
   const { mutate } = useSWRConfig();
 
   const [deleteIsLoading, setDeleteIsLoading] = useState({});
 
-  console.log('Is data ready?', !!data);
+  if (!!data === false) {
+    return (
+      <VStack spacing={1}>
+        <Skeleton height="20px" />
+      </VStack>
+    )
+  }
 
-  if (!data) return <Text>Loading...</Text>
+  // sort todos by most recent on top
+  data.sort((a, b) => {
+    if (a.id < b.id) return 1;
+    if (a.id > b.id) return -1;
+    return 0;
+  });
+
   return (
     <div>
       <VStack spacing={1} align="left">
@@ -76,7 +87,7 @@ function TodoList() {
                   setDeleteIsLoading({ [item.id]: true });
                   await httpDelete(`${API}/todos/${item.id}`);
                   setDeleteIsLoading({ [item.id]: false});
-                  mutate(`${API}/todos`, fetcher);
+                  mutate(`${API}/todos`);
                 }}
                 />
               }
@@ -92,6 +103,7 @@ export default function Home({ fallback }) {
   const [newItemText, setNewItemText] = useState('');
   const [isAddButtonLoading, setAddButtonLoading] = useState(false);
 
+  const { data } = useSWR(`${API}/todos`, fetcher);
   const { mutate } = useSWRConfig();
 
   async function handleAddItem(text) {
@@ -100,6 +112,7 @@ export default function Home({ fallback }) {
     console.log(result);
     setAddButtonLoading(false);
     setNewItemText('');
+    mutate(`${API}/todos`, [result.todo, ...data], false);
   }
 
   return (
@@ -126,12 +139,11 @@ export default function Home({ fallback }) {
             colorScheme="blue"
             onClick={() => {
               handleAddItem(newItemText);
-              mutate(`${API}/todos`, fetcher);
             }}>Add</Button>
         </HStack>
 
         <SWRConfig value={{ fallback }}>
-          <TodoList />
+          <TodoList data={data} />
         </SWRConfig>
       </main>
 
