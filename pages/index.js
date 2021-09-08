@@ -81,16 +81,13 @@ function TodoList({ data }) {
               isLoading={deleteIsLoading[item.id]}
               variant="ghost"
               aria-label="delete"
-              icon={<DeleteIcon
-                color="red.500" 
-                onClick={async () => {
-                  setDeleteIsLoading({ [item.id]: true });
-                  await httpDelete(`${API}/todos/${item.id}`);
-                  setDeleteIsLoading({ [item.id]: false});
-                  mutate(`${API}/todos`);
-                }}
-                />
-              }
+              icon={<DeleteIcon color="red.500" />}
+              onClick={async () => {
+                setDeleteIsLoading({ [item.id]: true });
+                await httpDelete(`${API}/todos/${item.id}`);
+                setDeleteIsLoading({ [item.id]: false});
+                mutate(`${API}/todos`);
+              }}
             />
           </HStack>
         )}
