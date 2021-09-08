@@ -47,6 +47,8 @@ function TodoList() {
   const { data } = useSWR(`${API}/todos`, fetcher);
   const { mutate } = useSWRConfig();
 
+  const [deleteIsLoading, setDeleteIsLoading] = useState({});
+
   console.log('Is data ready?', !!data);
 
   if (!data) return <Text>Loading...</Text>
@@ -65,12 +67,15 @@ function TodoList() {
             </Checkbox>
             <Spacer />
             <IconButton
+              isLoading={deleteIsLoading[item.id]}
               variant="ghost"
               aria-label="delete"
               icon={<DeleteIcon
                 color="red.500" 
                 onClick={async () => {
+                  setDeleteIsLoading({ [item.id]: true });
                   await httpDelete(`${API}/todos/${item.id}`);
+                  setDeleteIsLoading({ [item.id]: false});
                   mutate(`${API}/todos`, fetcher);
                 }}
                 />
@@ -85,12 +90,15 @@ function TodoList() {
 
 export default function Home({ fallback }) {
   const [newItemText, setNewItemText] = useState('');
+  const [isAddButtonLoading, setAddButtonLoading] = useState(false);
 
   const { mutate } = useSWRConfig();
 
   async function handleAddItem(text) {
+    setAddButtonLoading(true);
     const result = await postData(`${API}/todos`, { text: text });
     console.log(result);
+    setAddButtonLoading(false);
     setNewItemText('');
   }
 
@@ -113,7 +121,8 @@ export default function Home({ fallback }) {
               setNewItemText(value);
             }}
             value={newItemText}/>
-          <Button 
+          <Button
+            isLoading={isAddButtonLoading}
             colorScheme="blue"
             onClick={() => {
               handleAddItem(newItemText);
