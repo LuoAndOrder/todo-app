@@ -2,7 +2,7 @@ import Head from 'next/head'
 import useSWR, { SWRConfig, useSWRConfig } from 'swr'
 import { useState } from 'react';
 
-import { Heading, Input, Button, IconButton, Checkbox, Text, VStack, HStack, Spacer, Skeleton, Flex } from "@chakra-ui/react";
+import { Heading, Input, InputGroup, InputRightElement, Button, IconButton, Checkbox, Text, VStack, HStack, Spacer, Skeleton, Flex } from "@chakra-ui/react";
 import { DeleteIcon } from '@chakra-ui/icons';
 
 import styles from '../styles/Home.module.css'
@@ -126,19 +126,24 @@ export default function Home({ fallback }) {
 
         <form>
           <HStack spacing={1}>
-            <Input placeholder="Todo Item"
-              onChange={async (e) => {
-                const { value } = e.currentTarget;
-                setNewItemText(value);
-              }}
-              value={newItemText}/>
-            <Button
-              type="submit"
-              isLoading={isAddButtonLoading}
-              colorScheme="blue"
-              onClick={() => {
-                handleAddItem(newItemText);
-              }}>Add</Button>
+            <InputGroup>
+              <Input placeholder="Todo Item"
+                onChange={async (e) => {
+                  const { value } = e.currentTarget;
+                  setNewItemText(value);
+                }}
+                value={newItemText}/>
+              <InputRightElement children={
+                <Button
+                  type="submit"
+                  isDisabled={!newItemText}
+                  isLoading={isAddButtonLoading}
+                  colorScheme="blue"
+                  onClick={() => {
+                    handleAddItem(newItemText);
+                  }}>Add</Button>
+              }/>
+            </InputGroup>
           </HStack>
         </form>
 
